@@ -1,5 +1,5 @@
 # Choose the Node.js LTS (Long Term Support) version
-FROM node:14-alpine
+FROM node:18
 
 # Set the working directory in the Docker container
 WORKDIR /app
