@@ -7,7 +7,7 @@ on:
 env:
   PROJECT_ID: 'cpet-cicd'
   AR_REPO_LOCATION: 'us-central1'
-  AR_REPO: ' us-central1-docker.pkg.dev/cpet-cicd/my-sample-repo/sample-app'
+  AR_REPO: 'us-central1-docker.pkg.dev/cpet-cicd/my-sample-repo/sample-app'
   WIF_SERVICE_ACCOUNT: 'github-actions-service-account@cpet-cicd.iam.gserviceaccount.com'
   WIF_PROVIDER: 'projects/219680525622/locations/global/workloadIdentityPools/my-identity-pool/providers/my-identity-pool-provider'
 jobs:
