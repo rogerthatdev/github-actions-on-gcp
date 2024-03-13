@@ -7,12 +7,11 @@ on:
 env:
   PROJECT_ID: 'cpet-cicd'
   AR_REPO_LOCATION: 'us-central1'
-  AR_REPO: 'us-central1-docker.pkg.dev/cpet-cicd/github-action-tutorial/sample-app'
-  WIF_SERVICE_ACCOUNT: 'github-action-service-account@cpet-cicd.iam.gserviceaccount.com'
-  WIF_PROVIDER: 'projects/219680525622/locations/global/workloadIdentityPools/sample-github/providers/github-actions-on-gcp'
+  AR_REPO: ' us-central1-docker.pkg.dev/cpet-cicd/my-sample-repo/sample-app'
+  WIF_SERVICE_ACCOUNT: 'github-actions-service-account@cpet-cicd.iam.gserviceaccount.com`'
+  WIF_PROVIDER: 'projects/219680525622/locations/global/workloadIdentityPools/my-identity-pool/providers/my-identity-pool-provider'
 jobs:
   push_to_ar:
-    # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -44,5 +43,3 @@ jobs:
         run: |-
           docker build -t "${{ env.AR_REPO }}:${{ github.sha }}" ./
           docker push "${{ env.AR_REPO }}:${{ github.sha }}"
-
-    
