@@ -11,7 +11,7 @@ env:
   WIF_SERVICE_ACCOUNT: 'github-action-service-account@cpet-cicd.iam.gserviceaccount.com'
   WIF_PROVIDER: 'projects/219680525622/locations/global/workloadIdentityPools/sample-github/providers/github-actions-on-gcp'
 jobs:
-  deploy:
+  push_to_ar:
     # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
