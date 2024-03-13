@@ -27,7 +27,7 @@ jobs:
         with:
           token_format: 'access_token'
           project_id: ${{ env.PROJECT_ID }}
-          service_account: "github-action-service-account@cpet-cicd.iam.gserviceaccount.com"
+          service_account: "github-actions-service-account@cpet-cicd.iam.gserviceaccount.com"
           workload_identity_provider: ${{ env.WIF_PROVIDER }}
 
       # Authenticate Docker to Google Cloud Artifact Registry
