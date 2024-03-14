@@ -50,5 +50,8 @@ jobs:
             version: '>= 363.0.0'
             
       - name: 'Use gcloud CLI'
-        run: 'gcloud builds submit --region ${{ env.AR_REPO_LOCATION }} --tag ${{ env.AR_REPO }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .'
+        run: |- 
+            gcloud config project set ${{ env.PROJECT_ID }}
+            gcloud builds submit --region ${{ env.AR_REPO_LOCATION }} --tag ${{ env.AR_REPO }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+
     
