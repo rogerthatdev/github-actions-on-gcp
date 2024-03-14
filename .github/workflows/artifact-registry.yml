@@ -1,0 +1,46 @@
+name: Test AR push workflow
+
+on:
+    pull_request:
+      branches: [ "main" ]
+
+env:
+  PROJECT_ID: 'great-dane-0324' # Project ID where the Artifact Registry Repository is
+  AR_REPO_LOCATION: 'us-central1' # The region where the Artifact Registry Repository is located
+  AR_REPO: 'us-central1-docker.pkg.dev/great-dane-0324/my-ar-repo' # The Artifact Registry Repository URL
+  IMAGE_NAME: 'my-sample-app' # The name of the image to be pushed to the Artifact Registry Repository
+  SERVICE_ACCOUNT: 'github-actions-service-account@great-dane-0324.iam.gserviceaccount.com' # Service account to use
+  WORKLOAD_IDENTITY_PROVIDER: 'projects/861123827099/locations/global/workloadIdentityPools/my-identity-pool/providers/my-identity-pool-provider' # Workload Identity Provider with iam.workloadIdentityUser role on the service account IAM policy
+jobs:
+  push_to_ar:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Google Auth
+        id: auth
+        uses: 'google-github-actions/auth@v2'
+        with:
+          token_format: 'access_token'
+          project_id: ${{ env.PROJECT_ID }}
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+
+      # Authenticate Docker to Google Cloud Artifact Registry
+      - name: Docker Auth
+        id: docker-auth
+        uses: 'docker/login-action@v1'
+        with:
+          username: 'oauth2accesstoken'
+          password: '${{ steps.auth.outputs.access_token }}'
+          registry: '${{ env.AR_REPO_LOCATION }}-docker.pkg.dev'
+
+      - name: Build and Push Container
+        run: |-
+          docker build -t "${{ env.AR_REPO }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" ./
+          docker push "${{ env.AR_REPO }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
