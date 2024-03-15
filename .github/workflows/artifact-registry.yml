@@ -52,4 +52,5 @@ jobs:
     
       - name: 'Use gcloud CLI'
         # run: 'gcloud info'
-        run: 'gcloud artifacts docker images list ${{ env.AR_REPO }}'
+        # run: 'gcloud artifacts docker images list ${{ env.AR_REPO }}'
+        run: 'gcloud artifacts repositories create test-test-123 --repository-format=docker --location=us-central1 --description="Example Docker repository"'
