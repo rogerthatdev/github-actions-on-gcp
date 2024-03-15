@@ -29,6 +29,7 @@ jobs:
           project_id: ${{ env.PROJECT_ID }}
           service_account: ${{ env.SERVICE_ACCOUNT }}
           workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          create_credentials_file: 'true'
 
       # Authenticate Docker to Google Cloud Artifact Registry
       - name: Docker Auth
