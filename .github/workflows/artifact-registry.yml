@@ -51,4 +51,5 @@ jobs:
           version: '>= 363.0.0'
     
       - name: 'Use gcloud CLI'
-        run: 'gcloud info'
+        # run: 'gcloud info'
+        run: 'gcloud artifacts docker images list ${{ env.AR_REPO }}'
