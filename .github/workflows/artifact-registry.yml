@@ -22,14 +22,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Google Auth
+      - name: Google Cloud auth
         id: auth
-        uses: 'google-github-actions/auth@v2'
-        with:
-          token_format: 'access_token'
-          project_id: ${{ env.PROJECT_ID }}
+        uses: ./.github/workflows/test.yaml
+        with: 
           service_account: ${{ env.SERVICE_ACCOUNT }}
-          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
 
       # Authenticate Docker to Google Cloud Artifact Registry
       - name: Docker Auth

@@ -1,0 +1,27 @@
+name: Google Cloud Auth
+on:
+    workflow_call:
+      inputs:
+        service_account:
+          required: true
+          type: string
+env:
+  PROJECT_ID: 'great-dane-0324' # Project ID where the Artifact Registry Repository is
+  SERVICE_ACCOUNT: ${{ inputs.service_account }}
+  WORKLOAD_IDENTITY_PROVIDER: 'projects/861123827099/locations/global/workloadIdentityPools/my-identity-pool/providers/my-identity-pool-provider' # Workload Identity Provider with iam.workloadIdentityUser role on the service account IAM policy
+jobs:
+  auth:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Google Auth
+        id: auth
+        uses: 'google-github-actions/auth@v2'
+        with:
+          token_format: 'access_token'
+          project_id: ${{ env.PROJECT_ID }}
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          create_credentials_file: 'true'
