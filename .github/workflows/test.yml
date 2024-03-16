@@ -15,6 +15,9 @@ jobs:
       service_account: 'github-actions-service-account@great-dane-0324.iam.gserviceaccount.com'
 
   push_to_ar:
+    permissions:
+        contents: 'read'
+        id-token: 'write'
     needs: authenticate
     runs-on: ubuntu-latest
     steps:
