@@ -3,9 +3,6 @@ name: Test local workflow
 on:
     pull_request:
       branches: [ "main" ]
-
-env:
-  SERVICE_ACCOUNT: 'github-actions-service-account@great-dane-0324.iam.gserviceaccount.com' # Service account to use
 jobs:
   authenticate:
     permissions:
@@ -13,4 +10,4 @@ jobs:
       id-token: 'write'
     uses: ./.github/workflows/gcloud-auth.yml
     with: 
-      service_account: ${{ env.SERVICE_ACCOUNT }}
+      service_account: 'github-actions-service-account@great-dane-0324.iam.gserviceaccount.com'
