@@ -10,14 +10,14 @@ env:
   SERVICE_ACCOUNT: 'github-actions-service-account@great-dane-0324.iam.gserviceaccount.com'
 jobs:
   authenticate:
+    permissions:
+        contents: 'read'
+        id-token: 'write'
     uses: ./.github/workflows/gcloud-auth.yml
     with:
       service_account: 'github-actions-service-account@great-dane-0324.iam.gserviceaccount.com'
 
   push_to_ar:
-    permissions:
-        contents: 'read'
-        id-token: 'write'
     needs: authenticate
     runs-on: ubuntu-latest
     steps:
