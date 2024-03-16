@@ -5,21 +5,29 @@ on:
         service_account:
           required: true
           type: string
+      outputs:
+        access_token:
+          value: ${{jobs.auth.outputs.access_token}}
 env:
   PROJECT_ID: 'great-dane-0324' # Project ID where the Artifact Registry Repository is
   SERVICE_ACCOUNT: ${{ inputs.service_account }}
   WORKLOAD_IDENTITY_PROVIDER: 'projects/861123827099/locations/global/workloadIdentityPools/my-identity-pool/providers/my-identity-pool-provider' # Workload Identity Provider with iam.workloadIdentityUser role on the service account IAM policy
 jobs:
   auth:
+    name: Google GitHub Actions Auth
+    runs-on: ubuntu-latest
     permissions:
       contents: 'read'
       id-token: 'write'
-    runs-on: ubuntu-latest
+    outputs:
+      access_token: ${{ steps.google-github-actions-auth.outputs.access_token }}
     steps:
-      - uses: 'google-github-actions/auth@v2'
+      - id: google-github-actions-auth
+        uses: 'google-github-actions/auth@v2'
         with:
           token_format: 'access_token'
           project_id: ${{ env.PROJECT_ID }}
           service_account: ${{ env.SERVICE_ACCOUNT }}
           workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
           create_credentials_file: 'true'
+    
