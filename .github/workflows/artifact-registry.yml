@@ -6,7 +6,7 @@ on:
 env:
   PROJECT_ID: 'great-dane-0324' # Project ID where the Artifact Registry Repository is
   AR_REPO_LOCATION: 'us-central1' # The region where the Artifact Registry Repository is located
-  AR_REPO: 'us-central1-docker.pkg.dev/great-dane-0324/my-ar-repo'
+  AR_REPO: 'us-central1-docker.pkg.dev/great-dane-0324/my-ar-repo' 
   SERVICE_ACCOUNT: 'github-actions-service-account@great-dane-0324.iam.gserviceaccount.com'
 jobs:      
   push_to_ar:
