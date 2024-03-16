@@ -19,7 +19,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
     outputs:
-      access_token: FAUX
+      access_token: ${{ steps.google-github-actions-auth.outputs.project_id }}
     steps:
       - id: checkout
         uses: actions/checkout@v2
