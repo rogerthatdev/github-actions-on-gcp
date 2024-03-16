@@ -7,7 +7,7 @@ on:
           type: string
       outputs:
         access_token:
-          value: ${{jobs.auth.outputs.access_token}}
+          value: 'faux'
 env:
   PROJECT_ID: 'great-dane-0324' # Project ID where the Artifact Registry Repository is
   SERVICE_ACCOUNT: ${{ inputs.service_account }}
