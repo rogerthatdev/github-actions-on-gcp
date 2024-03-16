@@ -7,10 +7,9 @@ on:
           type: string
       outputs:
         access_token:
-          value: 'faux'
+          value: ${{jobs.auth.outputs.access_token}}
 env:
   PROJECT_ID: 'great-dane-0324' # Project ID where the Artifact Registry Repository is
-  SERVICE_ACCOUNT: ${{ inputs.service_account }}
   WORKLOAD_IDENTITY_PROVIDER: 'projects/861123827099/locations/global/workloadIdentityPools/my-identity-pool/providers/my-identity-pool-provider' # Workload Identity Provider with iam.workloadIdentityUser role on the service account IAM policy
 jobs:
   auth:
@@ -29,7 +28,7 @@ jobs:
         with:
           token_format: 'access_token'
           project_id: ${{ env.PROJECT_ID }}
-          service_account: ${{ env.SERVICE_ACCOUNT }}
+          service_account: ${{ inputs.service_account }}
           workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
           create_credentials_file: 'true'
     
