@@ -8,23 +8,25 @@ env:
   AR_REPO_LOCATION: 'us-central1' # The region where the Artifact Registry Repository is located
   AR_REPO: 'us-central1-docker.pkg.dev/great-dane-0324/my-ar-repo' 
   SERVICE_ACCOUNT: 'github-actions-service-account@great-dane-0324.iam.gserviceaccount.com'
-jobs:      
+jobs:
+  authenticate:
+    uses: ./.github/workflows/gcloud-auth.yml
+    with:
+      service_account: 'github-actions-service-account@great-dane-0324.iam.gserviceaccount.com'
+
   push_to_ar:
+    needs: authenticate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Google Auth
-        id: auth
-        uses: ./.github/workflows/gcloud-auth.yml
-        with:
-          service_account: ${{ env.SERVICE_ACCOUNT }}
 
       - name: Docker Auth
         id: docker-auth
         uses: docker/login-action@v1
         with:
           username: 'oauth2accesstoken'
-          password: '${{ steps.auth.outputs.access_token }}'
+          password: '${{ needs.authenticate.outputs.access_token }}'
           registry: '${{ env.AR_REPO_LOCATION }}-docker.pkg.dev'
+
+
