@@ -1,4 +1,4 @@
-name: Test AR push workflow
+name: Test local workflow
 
 on:
     pull_request:
@@ -7,18 +7,10 @@ on:
 env:
   SERVICE_ACCOUNT: 'github-actions-service-account@great-dane-0324.iam.gserviceaccount.com' # Service account to use
 jobs:
-  push_to_ar:
+  authenticate:
     permissions:
       contents: 'read'
       id-token: 'write'
-
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Google Cloud auth
-        id: auth
-        uses: ./.github/workflows/gcloud-auth.yml
-        with: 
-          service_account: ${{ env.SERVICE_ACCOUNT }}
+    uses: ./.github/workflows/gcloud-auth.yml
+    with: 
+      service_account: ${{ env.SERVICE_ACCOUNT }}
