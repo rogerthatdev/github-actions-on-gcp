@@ -3,6 +3,10 @@ name: Test local workflow
 on:
     pull_request:
       branches: [ "main" ]
+env:
+  PROJECT_ID: 'great-dane-0324' # Project ID where the Artifact Registry Repository is
+  AR_REPO_LOCATION: 'us-central1' # The region where the Artifact Registry Repository is located
+  AR_REPO: 'us-central1-docker.pkg.dev/great-dane-0324/my-ar-repo'
 jobs:
   authenticate:
     permissions:
@@ -11,3 +15,18 @@ jobs:
     uses: ./.github/workflows/gcloud-auth.yml
     with: 
       service_account: 'github-actions-service-account@great-dane-0324.iam.gserviceaccount.com'
+      
+  push_to_ar:
+    needs: [authenticate]
+    runs-on: ubuuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker Auth
+        id: docker-auth
+        uses: docker/login-action@v1
+        with:
+          username: 'oauth2accesstoken'
+          password: '${{ needs.authenticate.outputs.access_token }}'
+          registry: '${{ env.AR_REPO_LOCATION }}-docker.pkg.dev'
