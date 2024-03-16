@@ -22,8 +22,8 @@ jobs:
     outputs:
       access_token: ${{ steps.google-github-actions-auth.outputs.access_token }}
     steps:
-      - name: Checkout
-      uses: actions/checkout@v2
+      - id: checkout
+        uses: actions/checkout@v2
       - id: google-github-actions-auth
         uses: 'google-github-actions/auth@v2'
         with:
