@@ -24,7 +24,7 @@ jobs:
 
       - name: Google Cloud auth
         id: auth
-        uses: ./.github/workflows/gcloud-auth.yaml
+        uses: ./.github/workflows/gcloud-auth.yml
         with: 
           service_account: ${{ env.SERVICE_ACCOUNT }}
 
