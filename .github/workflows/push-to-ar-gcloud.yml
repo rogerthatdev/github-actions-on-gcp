@@ -1,0 +1,42 @@
+name: Test AR push workflow
+
+on:
+    push:
+      branches: [ "main" ]
+
+env:
+  PROJECT_ID: 'great-dane-0324' # Project ID where the Artifact Registry Repository is
+  AR_REPO_LOCATION: 'us-central1' # The region where the Artifact Registry Repository is located
+  AR_REPO: 'us-central1-docker.pkg.dev/great-dane-0324/my-ar-repo' # The Artifact Registry Repository URL
+  IMAGE_NAME: 'my-sample-app' # The name of the image to be pushed to the Artifact Registry Repository
+  SERVICE_ACCOUNT: 'github-actions-service-account@great-dane-0324.iam.gserviceaccount.com' # Service account to use
+  WORKLOAD_IDENTITY_PROVIDER: 'projects/861123827099/locations/global/workloadIdentityPools/my-identity-pool/providers/my-identity-pool-provider' # Workload Identity Provider with iam.workloadIdentityUser role on the service account IAM policy
+jobs:
+  push_to_ar:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Google Auth
+        id: auth
+        uses: 'google-github-actions/auth@v2'
+        with:
+          token_format: 'access_token'
+          project_id: ${{ env.PROJECT_ID }}
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          create_credentials_file: 'true'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+        with:
+          version: '>= 363.0.0'
+    
+      - name: 'Use gcloud CLI'
+        run: |-
+          gcloud builds submit --region=${{ env.AR_REPO_LOCATION }} --tag ${{ env.AR_REPO }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
