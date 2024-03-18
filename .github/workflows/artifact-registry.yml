@@ -38,8 +38,7 @@ jobs:
     
       - name: 'Use gcloud CLI'
         run: |-
-          gcloud info
-          gcloud config list
+          gcloud builds submit --region=${{ env.AR_REPO_LOCATION }} --tag ${{ env.AR_REPO }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
       # Authenticate Docker to Google Cloud Artifact Registry
       # - name: Docker Auth
