@@ -36,7 +36,7 @@ jobs:
         uses: 'google-github-actions/get-secretmanager-secrets@v2'
         with:
           secrets: |-
-            token:test-secret/test-value
+            token:${{ env.PROJECT_ID }}/test-secret
       - name: Get npm cache directory
         id: npm-cache-dir
         shell: bash
