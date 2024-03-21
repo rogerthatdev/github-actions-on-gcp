@@ -5,12 +5,12 @@ on:
       branches: [ "main" ]
 
 env:
-  PROJECT_ID: 'great-dane-0324' # Project ID where the Artifact Registry Repository is
+  PROJECT_ID: 'poodle-0324' # Project ID where the Artifact Registry Repository is
   AR_REPO_LOCATION: 'us-central1' # The region where the Artifact Registry Repository is located
-  AR_REPO: 'us-central1-docker.pkg.dev/great-dane-0324/my-ar-repo' # The Artifact Registry Repository URL
+  AR_REPO: 'us-central1-docker.pkg.dev/poodle-0324/my-ar-repo' # The Artifact Registry Repository URL
   IMAGE_NAME: 'my-sample-app' # The name of the image to be pushed to the Artifact Registry Repository
-  SERVICE_ACCOUNT: 'github-actions-service-account@great-dane-0324.iam.gserviceaccount.com' # Service account to use
-  WORKLOAD_IDENTITY_PROVIDER: 'projects/861123827099/locations/global/workloadIdentityPools/my-identity-pool/providers/my-identity-pool-provider' # Workload Identity Provider with iam.workloadIdentityUser role on the service account IAM policy
+  SERVICE_ACCOUNT: 'github-actions-service-account@poodle-0324.iam.gserviceaccount.com' # Service account to use
+  WORKLOAD_IDENTITY_PROVIDER: 'projects/508311122588/locations/global/workloadIdentityPools/my-app-dev-pool/providers/github-actions-provider' # Workload Identity Provider with iam.workloadIdentityUser role on the service account IAM policy
 jobs:
   push_to_ar:
     permissions:
